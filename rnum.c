@@ -3,17 +3,17 @@
 #include <openssl/rand.h>
 
 int main(int argc, char *argv[]) {
-	uint bytes = sizeof(uint);
+	unsigned int bytes = sizeof(unsigned int);
 	unsigned char buf[bytes];
-	uint max = atoi(argv[1]);
-	uint randmax = UINT_MAX - (UINT_MAX - max + 1) % max;
-	uint n = 0;
+	unsigned int max = atoi(argv[1]);
+	unsigned int randmax = UINT_MAX - (UINT_MAX - max + 1) % max;
+	unsigned int n = 0;
 	while(n == 0 || n > randmax) {
 		RAND_bytes(buf, bytes);
 		n = buf[0];
-		for(uint byte = 1; byte < bytes; byte = byte + 1) {
-			uint factor=256;
-			for(uint pow = 2; pow <= byte; pow = pow + 1) {
+		for(unsigned int byte = 1; byte < bytes; byte = byte + 1) {
+			unsigned int factor=256;
+			for(unsigned int pow = 2; pow <= byte; pow = pow + 1) {
 				factor = factor * factor;
 			}
 			n = n + factor * buf[byte];
