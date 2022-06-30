@@ -1,11 +1,13 @@
-all:
-	tcc -lssl rnum.c -o rnum
+PREFIX=/usr/local
+
+all: rnum.c
+	cc -lcrypto rnum.c -o rnum
 
 install:
-	install rnum /usr/local/bin/
+	install rnum ${PREFIX}/bin/
 
 uninstall:
-	rm /usr/local/bin/rnum
+	rm ${PREFIX}/bin/rnum
 
 clean:
 	rm rnum
