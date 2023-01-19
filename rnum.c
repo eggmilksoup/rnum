@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <limits.h>
+
 #include <openssl/rand.h>
+
+#include <sys/errno.h>
 
 int main(int argc, char *argv[]) {
 	if(argc != 2)
 	{
 		fprintf(stderr, "usage: %s max\n", argv[0]);
-		return 1;
+		return(EINVAL);
 	}
 	int bytes = sizeof(long long);
 	unsigned char buf[bytes];
@@ -14,7 +17,7 @@ int main(int argc, char *argv[]) {
 	if(max < 1)
 	{
 		fprintf(stderr, "max must be a positive integer\n");
-		return 1;
+		return(EDOM);
 	}
 	long long randmax = LLONG_MAX - (LLONG_MAX - max + 1) % max;
 	long long n = 0;
