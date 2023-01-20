@@ -2,6 +2,7 @@
 #include <limits.h>
 
 #include <openssl/rand.h>
+#include <openssl/err.h>
 
 #include <sys/errno.h>
 
@@ -17,13 +18,24 @@ int main(int argc, char *argv[]) {
 	if(max < 1)
 	{
 		fprintf(stderr, "max must be a positive integer\n");
-		return(EDOM);
+		return(ERANGE);
+	}
+	if(errno == ERANGE)
+	{
+		fprintf(stderr, "max must be less than %lld\n", LLONG_MAX);
+		return(ERANGE);
 	}
 	long long randmax = LLONG_MAX - (LLONG_MAX - max + 1) % max;
 	long long n = 0;
 	while(n == 0 || n > randmax)
 	{
 		RAND_bytes(buf, bytes);
+		unsigned long err = ERR_get_error();
+		if(err)
+		{
+			fprintf(stderr, "RAND_bytes: %s\n", ERR_reason_error_string(err));
+			return((int) err);
+		}
 		n = buf[0];
 		for(int byte = 1; byte < bytes; byte = byte + 1)
 		{
