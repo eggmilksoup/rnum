@@ -1,0 +1,24 @@
+.Dd $Mdocdate$
+.Dt RNUM 1
+.Os
+.Sh NAME
+.Nm rnum
+.Nd generate random positive integers
+.Sh SYNOPSIS
+.Nm rnum
+.Ar max
+.Sh DESCRIPTION
+.Nm
+prints a random number from 1 to
+.Ar max
+.Pp
+.Ar max
+can be any value up to
+.Dv LLONG_MAX
+(see
+.In limits.h
+).
+.Sh EXIT STATUS
+.Ex -std
+.Sh AUTHORS
+.An Egg Milk Soup Aq Mt egg@milksoup.net
